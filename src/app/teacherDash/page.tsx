@@ -1,116 +1,182 @@
+
 "use client"
-import React, { useState } from 'react';
-import axios from 'axios';
-import QuizList from '../components/GetQuiz';
+import React, { useState, useEffect } from "react";
+import { submitQuiz } from "../services/quizPostService";
+import { IQuizForm } from "../interfaces/interface";
+import { getQuiz } from "../services/quizGetService";
+
+
+
 
 const QuizForm = () => {
-  const [title, setTitle] = useState('');
-  const [timer, setTimer] = useState(30);
-  const [questions, setQuestions] = useState([{ questionText: '', options: [{ id: 1, text: '' }, { id: 2, text: '' }, { id: 3, text: '' }, { id: 4, text: '' }] }]);
- const [activate, setActivate] = useState(false);
 
+  const [firstForm, setfirstForm] = useState<IQuizForm>({
+    quizTitle:"",
+    timer:"",
+    type:"",
+    startTime:"",
+    endTime:"",
+    date:"",
+    questions:[{
+      questionTitle:"",
+      options:["", "", "", ""]
+    }]
+  })
+console.log("Form", firstForm)
 
-  const handleQuestionChange = (index: number, value: string) => {
-    const newQuestions = [...questions];
-    newQuestions[index].questionText = value;
-    setQuestions(newQuestions);
-  };
+ const [quizTitles, setQuizTitles] = useState<string[]>([]);
 
-  const handleOptionChange = (qIndex: number, oIndex: number, value: string) => {
-    const newQuestions = [...questions];
-    newQuestions[qIndex].options[oIndex].text = value;
-    setQuestions(newQuestions);
-  };
-
-  const addQuestion = () => {
-    setQuestions([...questions, { questionText: '', options: [{ id: 1, text: '' }, { id: 2, text: '' }, { id: 3, text: '' }, { id: 4, text: '' }] }]);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const quizData = {
-      Title: title,
-      Timer: timer,
-      Activated: activate,
-      Questions: questions.map((q, index) => ({
-        id: index + 1,
-        questionText: q.questionText,
-        options: q.options
-      }))
-    };
-
+useEffect(() => {
+  const fetchQuizzes = async () => {
     try {
-      await axios.post('http://localhost:3001/quiz', quizData);
-      setTitle('');
-      setTimer(30);
-      setQuestions([{ questionText: '', options: [{ id: 1, text: '' }, { id: 2, text: '' }, { id: 3, text: '' }, { id: 4, text: '' }] }]);
+      const response = await getQuiz();
+      if (response && response.data) {
+        const allQuiz = response.data;
+        console.log("Reload: ", allQuiz);
+     
+        setQuizTitles(
+          allQuiz.map((quiz: { quizTitle: string }) => quiz.quizTitle)
+        );
+        console.log("new state: ", quizTitles);
+      } else {
+        console.error("Invalid response from getQuiz");
+      }
     } catch (error) {
-      console.error('Error adding quiz:', error);
+      console.error("Error fetching quizzes:", error);
     }
   };
+  fetchQuizzes();
+}, []);
 
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setfirstForm({ ...firstForm, [name]: value });
+  };
+  console.log("handleChange", handleChange)
+
+  const handleQuestions = (index:number, event: React.ChangeEvent<HTMLInputElement> ) => {
+    const {name, value} = event.target
+    const allQuestions = [...firstForm.questions]
+    if(name === 'questionTitle'){
+      allQuestions[index].questionTitle = value
+    }else{
+      const optionIndex = parseInt(name.replace("option", "")) - 1;
+      allQuestions[index].options[optionIndex] = value;
+    }
+   setfirstForm({ ...firstForm, questions: allQuestions });
+  }
+
+    const addQuestion = () => {
+      setfirstForm({
+        ...firstForm,
+        questions: [
+          ...firstForm.questions,
+          {
+            questionTitle: "",
+            options: ["", "", "", ""]
+          }
+        ]
+      });
+    };
+
+    const submitForm = async () => {
+      const formData: IQuizForm = firstForm;
+      console.log("formData", formData);
+      const response = await submitQuiz(formData);
+      console.log("response from here", response);
+      if (response && response.data) {
+        setQuizTitles(
+          response.data.map((quiz: { quizTitle: string }) => quiz.quizTitle)
+        );
+      }
+    }
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Quiz Title:
+      <form>
+        <input
+          type="text"
+          name="quizTitle"
+          value={firstForm.quizTitle}
+          placeholder="Quiz Title"
+          onChange={handleChange}
+        ></input>
+        <input
+          type="Number"
+          name="timer"
+          value={firstForm.timer}
+          placeholder="Timer (minutes)"
+          onChange={handleChange}
+        ></input>
+        <input
+          type="text"
+          name="type"
+          value={firstForm.type}
+          placeholder="MCQ or T/F"
+          onChange={handleChange}
+        ></input>
+        <input
+          type="text"
+          name="startTime"
+          value={firstForm.startTime}
+          placeholder="Start Time"
+          onChange={handleChange}
+        ></input>
+        <input
+          type="text"
+          name="endTime"
+          value={firstForm.endTime}
+          placeholder="End Time"
+          onChange={handleChange}
+        ></input>
+        <input
+          type="text"
+          name="date"
+          value={firstForm.date}
+          placeholder="Quiz Date"
+          onChange={handleChange}
+        ></input>
+        {firstForm.questions.map((question, index) => (
+          <div key={index}>
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
+              name="questionTitle"
+              value={question.questionTitle}
+              placeholder={`Question ${index + 1}`}
+              onChange={(event) => handleQuestions(index, event)}
             />
-          </label>
-        </div>
-        <div>
-          <label>
-            Timer (seconds):
-            <input
-              type="number"
-              value={timer}
-              onChange={(e) => setTimer(Number(e.target.value))}
-              required
-            />
-          </label>
-        </div>
-        {questions.map((question, qIndex) => (
-          <div key={qIndex}>
-            <label>
-              Question {qIndex + 1}:
+            {question.options.map((option, optionIndex) => (
               <input
+                key={optionIndex}
                 type="text"
-                value={question.questionText}
-                onChange={(e) => handleQuestionChange(qIndex, e.target.value)}
-                required
+                name={`option${optionIndex + 1}`}
+                placeholder={`Option ${optionIndex + 1}`}
+                value={option}
+                onChange={(e) => handleQuestions(index, e)}
               />
-            </label>
-            {question.options.map((option, oIndex) => (
-              <div key={oIndex}>
-                <label>
-                  Option {oIndex + 1}:
-                  <input
-                    type="text"
-                    value={option.text}
-                    onChange={(e) =>
-                      handleOptionChange(qIndex, oIndex, e.target.value)
-                    }
-                    required
-                  />
-                </label>
-              </div>
             ))}
           </div>
         ))}
         <button type="button" onClick={addQuestion}>
           Add Question
         </button>
-        <button type="submit">Submit Quiz</button>
       </form>
-      <QuizList />
+      <button type="button" onClick={submitForm}>
+        Submit Quiz
+      </button>
+      <div>
+        <h3> All Quizzes </h3>
+        <ul>
+          {quizTitles.map((title,index) => (
+            <li key={index}>{title}
+            <button>Activate</button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
-};
+}
 
-export default QuizForm;
+
+export default QuizForm

@@ -1,105 +1,101 @@
 {
   "quiz": [
     {
-      "id": "36b2",
-      "Title": "scsac",
-      "Timer": 30,
-      "Activated": true,
-      "Questions": [
+      "id": "1fe5",
+      "quizTitle": "Test",
+      "timer": "30",
+      "type": "MCQ",
+      "startTime": "12:10",
+      "endTime": "01:00",
+      "date": "123",
+      "questions": [
         {
-          "id": 1,
-          "questionText": "ascsac",
+          "questionTitle": "Hey",
           "options": [
-            {
-              "id": 1,
-              "text": "ascsa"
-            },
-            {
-              "id": 2,
-              "text": "ascasc"
-            },
-            {
-              "id": 3,
-              "text": "ascasc"
-            },
-            {
-              "id": 4,
-              "text": "ascsac"
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "questionText": "scascs",
-          "options": [
-            {
-              "id": 1,
-              "text": "ascsac"
-            },
-            {
-              "id": 2,
-              "text": "ascasc"
-            },
-            {
-              "id": 3,
-              "text": "acasc"
-            },
-            {
-              "id": 4,
-              "text": "ascsc"
-            }
+            "Check",
+            "Ok",
+            "Crack",
+            "OHHH"
           ]
         }
       ]
     },
     {
-      "id": "80dc",
-      "Title": "Test",
-      "Timer": 30,
-      "Activated": false,
-      "Questions": [
+      "id": "2c40",
+      "quizTitle": "Testyyy",
+      "timer": "30",
+      "type": "MCQ",
+      "startTime": "12:10",
+      "endTime": "01:00",
+      "date": "123",
+      "questions": [
         {
-          "id": 1,
-          "questionText": "Check",
+          "questionTitle": "Hey",
           "options": [
-            {
-              "id": 1,
-              "text": "1"
-            },
-            {
-              "id": 2,
-              "text": "2"
-            },
-            {
-              "id": 3,
-              "text": "3"
-            },
-            {
-              "id": 4,
-              "text": "4"
-            }
+            "Check",
+            "Ok",
+            "Crack",
+            "OHHH"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "id": "170e",
+      "quizTitle": "TestyyyCheck",
+      "timer": "30",
+      "type": "MCQ",
+      "startTime": "12:10",
+      "endTime": "01:00",
+      "date": "123",
+      "questions": [
         {
-          "id": 2,
-          "questionText": "Check 2",
+          "questionTitle": "Hey",
           "options": [
-            {
-              "id": 1,
-              "text": "5"
-            },
-            {
-              "id": 2,
-              "text": "6"
-            },
-            {
-              "id": 3,
-              "text": "7"
-            },
-            {
-              "id": 4,
-              "text": "8"
-            }
+            "Check",
+            "Ok",
+            "Crack",
+            "OHHH"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "0cb4",
+      "quizTitle": "TestyyyCheckkkk",
+      "timer": "30",
+      "type": "MCQ",
+      "startTime": "12:10",
+      "endTime": "01:00",
+      "date": "123",
+      "questions": [
+        {
+          "questionTitle": "Hey",
+          "options": [
+            "Check",
+            "Ok",
+            "Crack",
+            "OHHH"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5ea0",
+      "quizTitle": "pretty",
+      "timer": "",
+      "type": "",
+      "startTime": "",
+      "endTime": "",
+      "date": "",
+      "questions": [
+        {
+          "questionTitle": "",
+          "options": [
+            "",
+            "",
+            "",
+            ""
           ]
         }
       ]
@@ -107,23 +103,18 @@
   ],
   "students": [
     {
-      "id": "1",
       "name": "Rizwan"
     },
     {
-      "id": "2",
       "name": "Rafsan"
     },
     {
-      "id": "3",
       "name": "Shakib"
     },
     {
-      "id": "",
       "name": "Barshon"
     },
     {
-      "id": "1",
       "name": "Toushik"
     }
   ]
