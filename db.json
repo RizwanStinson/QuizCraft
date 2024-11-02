@@ -4,7 +4,7 @@
       "id": "36b2",
       "Title": "scsac",
       "Timer": 30,
-      "Activated": true,
+      "Activated": false,
       "Questions": [
         {
           "id": 1,
@@ -56,7 +56,7 @@
       "id": "80dc",
       "Title": "Test",
       "Timer": 30,
-      "Activated": false,
+      "Activated": true,
       "Questions": [
         {
           "id": 1,

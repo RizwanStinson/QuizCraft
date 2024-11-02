@@ -1,11 +1,11 @@
-import * as React from "react";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
+import React from 'react'
 
-export default function StudentButton() {
+type Props = {}
+
+function StudentButton({}: Props) {
   return (
-    <Stack spacing={2} direction="row">
-      <Button variant="contained">Student</Button>
-    </Stack>
-  );
+    <button>Student</button>
+  )
 }
+
+export default StudentButton
